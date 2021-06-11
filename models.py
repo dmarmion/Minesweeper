@@ -8,7 +8,7 @@ class Cell:
     """
 
     def __init__(self, mined=False):
-        self.state = CellState.UNCOVERED
+        self.state = CellState.COVERED
         self.mined = mined
 
 
@@ -129,10 +129,38 @@ class Grid:
             for c in range(-1, 2):
                 # Skip the current cell and cells outside of the grid
                 if (not (r == 0 and c == 0)
-                    and row + r >= 0 and row + r < self.GRID_ROWS
-                    and col + c >= 0 and col + c < self.GRID_COLUMNS):
+                    and self.has_cell_at(row + r, col + c)):
                     # Increment the mine counter if position is mined
                     if self._grid[row + r][col + c].mined:
                         mine_count += 1
         
         return mine_count
+    
+    def has_cell_at(self, row, col):
+        """
+        Return True if (row, col) is a valid position in the grid, i.e.
+        0 <= row < GRID_ROWS and 0 <= col < GRID_COLUMNS.
+        """
+        return (row >= 0 and row < self.GRID_ROWS
+                and col >= 0 and col < self.GRID_COLUMNS)
+    
+    def cell_state_at(self, row, col):
+        """
+        Get the state of the cell at (row, col), or None otherwise.
+        """
+        if self.has_cell_at(row, col):
+            return self._grid[row][col].state
+        else:
+            return None
+    
+    def set_cell_state(self, row, col, new_state):
+        """
+        Set the cell at (row, col) to have state new_state.
+        
+        Returns False if the cell does not exist.
+        """
+        if self.has_cell_at(row, col):
+            self._grid[row][col].state = new_state
+            return True
+        else:
+            return False
