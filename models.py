@@ -1,4 +1,5 @@
 import enum
+import random
 
 class Cell:
     """
@@ -35,6 +36,9 @@ class Grid:
                 row.append(Cell())
 
             self._grid.append(row)
+        
+        # Initialise the mine positions
+        self._set_mines()
     
     def __str__(self):
         """
@@ -44,8 +48,9 @@ class Grid:
         COLUMN_WIDTH = 1
         COVERED_CELL = " "
         FLAGGED_CELL = "F"
-        COLUMN_DIVIDER = "|"
         MINED_CELL = "*"
+        NO_NEIGHBOUR_MINES = "."
+        COLUMN_DIVIDER = "|"
 
         stringrepr = ""
 
@@ -80,12 +85,38 @@ class Grid:
                     else:
                         # Display the number of surrounding Cells which
                         # contain mines
-                        stringrepr += str(self._mined_neighbours(row, col))
+                        mined_neighbours = self._mined_neighbours(row, col)
+
+                        if mined_neighbours == 0:
+                            stringrepr += NO_NEIGHBOUR_MINES
+                        else:
+                            stringrepr += str(mined_neighbours)
 
                 stringrepr += COLUMN_DIVIDER
             stringrepr += "\n"
 
         return stringrepr
+    
+    def _set_mines(self):
+        """
+        Set the Cells in the board which will contain mines. Intended
+        to be called when a Grid is created.
+        
+        This method does not clear any positions which have already been
+        set to have mines.
+        """
+        NUM_MINES = 10
+
+        # Positions in the grid which will be set to have a mine, stored
+        # as (row, col) tuples
+        cells_to_mine = set()
+        while len(cells_to_mine) < NUM_MINES:
+            row = random.randrange(self.GRID_ROWS)
+            col = random.randrange(self.GRID_COLUMNS)
+            cells_to_mine.add((row, col))
+        
+        for cell_pos in cells_to_mine:
+            self._grid[cell_pos[0]][cell_pos[1]].mined = True
     
     def _mined_neighbours(self, row, col):
         """
