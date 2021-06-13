@@ -15,10 +15,27 @@ class GameEngine:
         """
         Uncover a Cell in the grid.
         
-        Returns True if ...
+        Returns True if the cell exists and was previously in the
+        covered state.
         """
         if not self.game_over:
-            pass
+            if (self._grid.has_cell_at(row, col)
+                and self._grid.cell_state_at(row, col) == CellState.COVERED):
+                # Uncover that cell, and if it has no mined neighbours,
+                # keep uncovering cells until no more cells without
+                # mined neighbours are uncovered.
+                # TODO comment needs updating
+                #
+                #
+                #
+                if not self._grid.uncover_from(row, col):
+                    # A mine was hit
+                    # TODO
+                    # print("Mine hit!")
+                    pass
+
+            else:
+                return False
         else:
             # Game has already finished, no more moves can be made
             return False
