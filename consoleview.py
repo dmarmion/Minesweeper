@@ -1,2 +1,49 @@
 class ConsoleView:
     """Console-output view for a minesweeper game."""
+
+    def __init__(self):
+        # The game this view is representing.
+        # Must be set before many operations can take place
+        self._game = None
+    
+    def invalid_move(self):
+        """
+        Called when the player makes an invalid move.
+
+        Prints a brief overview of valid moves.
+        """
+        print("Sorry, I don't recognise that command.")
+        print("The moves you can make are:")
+        print(" - flag <position>")
+        print(" - uncover <position>")
+        print(" - help")
+        print(" - quit")
+        print()
+        print("For more information, type 'help'")
+        print()
+
+    def board_updated(self):
+        """Print the current state of the board"""
+        if self._game is not None:
+            print(self._game.grid)
+    
+    def game_started(self):
+        """
+        Called when the game begins.
+
+        Prints a welcome message.
+        """
+        print("Welcome to Minesweeper!", end='\n\n')
+
+    def turn_started(self):
+        """
+        Called when a turn begins, before the user enters their move.
+
+        Prints the current game state and prompts the user to enter
+        their move.
+        """
+        self.board_updated()
+        
+        # Prompt user for input
+        print("Please enter your move:")
+        print("> ", end='')

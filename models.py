@@ -63,7 +63,7 @@ class Grid:
         # Horizontal line
         for i in range(self.GRID_COLUMNS + 1):
             stringrepr += "-" * (COLUMN_WIDTH + 1)
-        stringrepr += "\n"
+        stringrepr += "-\n"
         
         # Add each row of the grid
         for row in range(len(self._grid)):
@@ -238,6 +238,8 @@ class Grid:
                             # If the neighbour doesn't neighbour any
                             # mines, uncover from there
                             if (self._mined_neighbours(row + r, col + c) == 0
-                                and self._grid[row + r][col + c] not in visited_cells):
-                                self._recursively_uncover_from(row + r, col + c, visited_cells)                
-
+                                and (self._grid[row + r][col + c]
+                                     not in visited_cells)):
+                                self._recursively_uncover_from(row + r,
+                                                               col + c,
+                                                               visited_cells)       
