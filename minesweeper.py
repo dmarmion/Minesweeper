@@ -18,12 +18,14 @@ def main():
         move = input()
         print()
         
-        execute_move(move, view)
+        execute_move(move, game, view)
 
         # Temp TODO remove
         game.game_over = True
     
-def execute_move(move, view):
+    # print(game.grid)
+    
+def execute_move(move, game, view):
     """
     Take a raw user input, convert it to a move and execute that move.
 
@@ -43,9 +45,33 @@ def execute_move(move, view):
         command = tokens[0].lower()
 
         if command == "flag":
-            pass
+            # Flag commands are expected to be in the format
+            # 'flag <col> <row>'
+            if len(tokens) == 3:
+                try:
+                    col = int(tokens[1])
+                    row = int(tokens[2])
+
+                    game.flag_cell(row, col)
+                except ValueError:
+                    view.invalid_flag_command()
+            else:
+                view.invalid_flag_command()
+
         elif command == "uncover":
-            pass
+            # Uncover commands are expected to be in the format
+            # 'uncover <col> <row>'
+            if len(tokens) == 3:
+                try:
+                    col = int(tokens[1])
+                    row = int(tokens[2])
+
+                    game.uncover_cell(row, col)
+                except ValueError:
+                    view.invalid_uncover_command()
+            else:
+                view.invalid_uncover_command()
+
         elif command == "help":
             pass
         elif command == "quit":

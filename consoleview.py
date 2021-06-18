@@ -14,12 +14,32 @@ class ConsoleView:
         """
         print("Sorry, I don't recognise that command.")
         print("The moves you can make are:")
-        print(" - flag <position>")
-        print(" - uncover <position>")
+        print(" - flag <column> <row>")
+        print(" - uncover <column> <row>")
         print(" - help")
         print(" - quit")
         print()
         print("For more information, type 'help'")
+        print()
+    
+    def invalid_flag_command(self):
+        """
+        Called when the player enters an incorrectly formatted flag
+        command.
+        """
+        print("Sorry, the command you entered appears to be incorrectly formatted.")
+        print("The expected format for flag commands is:")
+        print("flag <column> <row>, e.g. 'flag 4 8'")
+        print()
+
+    def invalid_uncover_command(self):
+        """
+        Called when the player enters an incorrectly formatted uncover
+        command.
+        """
+        print("Sorry, the command you entered appears to be incorrectly formatted.")
+        print("The expected format for uncover commands is:")
+        print("uncover <column> <row>, e.g. 'uncover 4 8'")
         print()
 
     def board_updated(self):
