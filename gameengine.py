@@ -30,8 +30,11 @@ class GameEngine:
                 # should also be uncovered
                 if not self.grid.uncover_from(row, col):
                     # A mine was hit
-                    # TODO notify views
-                    pass
+                    self.view.mine_hit()
+                    self.game_over = True
+
+                # Update the game-over status
+                # TODO
                 return True
             else:
                 return False

@@ -87,3 +87,9 @@ class ConsoleView:
         # Prompt user for input
         print("Please enter your move:")
         print("> ", end='')
+    
+    def mine_hit(self):
+        """Called when a mine is hit."""
+        print("A mine was hit!")
+        print("Game over.")
+        print()

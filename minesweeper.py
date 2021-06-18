@@ -21,9 +21,6 @@ def main():
         print()
         
         execute_move(move, game, view)
-
-        # Temp TODO remove
-        game.game_over = True
     
 def execute_move(move, game, view):
     """
