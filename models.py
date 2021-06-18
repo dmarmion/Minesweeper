@@ -242,4 +242,32 @@ class Grid:
                                      not in visited_cells)):
                                 self._recursively_uncover_from(row + r,
                                                                col + c,
-                                                               visited_cells)       
+                                                               visited_cells)
+
+    def cells_left_to_uncover(self):
+        """
+        Check whether or not there are non-mined cells that haven't been
+        uncovered yet.
+        """
+        # Count uncovered cells in grid
+        uncovered_cells = 0
+        for row in range(self.GRID_ROWS):
+            for col in range(self.GRID_COLUMNS):
+                if (self._grid[row][col].state == CellState.UNCOVERED
+                    and not self._grid[row][col].mined):
+                    # Increment counter
+                    uncovered_cells += 1
+        
+        # Count mines in the grid
+        mined_cells = 0
+        for row in range(self.GRID_ROWS):
+            for col in range(self.GRID_COLUMNS):
+                if self._grid[row][col].mined:
+                    mined_cells += 1
+        
+        # Calculate remaining non-mined covered cells
+        remaining = (self.GRID_ROWS * self.GRID_COLUMNS
+                    - mined_cells
+                    - uncovered_cells)
+        
+        return remaining > 0

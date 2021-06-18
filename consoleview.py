@@ -93,3 +93,10 @@ class ConsoleView:
         print("A mine was hit!")
         print("Game over.")
         print()
+    
+    def game_won(self):
+        """Called when all non-mined cells have been uncovered."""
+        self.board_updated()
+
+        print("You win!")
+        print()

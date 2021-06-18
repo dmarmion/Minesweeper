@@ -34,7 +34,10 @@ class GameEngine:
                     self.game_over = True
 
                 # Update the game-over status
-                # TODO
+                if not self.grid.cells_left_to_uncover():
+                    self.game_over = True
+                    self.view.game_won()
+                
                 return True
             else:
                 return False
