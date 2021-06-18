@@ -1,3 +1,5 @@
+import sys
+
 from consoleview import ConsoleView
 from gameengine import GameEngine
 
@@ -23,8 +25,6 @@ def main():
         # Temp TODO remove
         game.game_over = True
     
-    # print(game.grid)
-    
 def execute_move(move, game, view):
     """
     Take a raw user input, convert it to a move and execute that move.
@@ -46,7 +46,7 @@ def execute_move(move, game, view):
 
         if command == "flag":
             # Flag commands are expected to be in the format
-            # 'flag <col> <row>'
+            # 'flag <column> <row>'
             if len(tokens) == 3:
                 try:
                     col = int(tokens[1])
@@ -60,7 +60,7 @@ def execute_move(move, game, view):
 
         elif command == "uncover":
             # Uncover commands are expected to be in the format
-            # 'uncover <col> <row>'
+            # 'uncover <column> <row>'
             if len(tokens) == 3:
                 try:
                     col = int(tokens[1])
@@ -73,9 +73,9 @@ def execute_move(move, game, view):
                 view.invalid_uncover_command()
 
         elif command == "help":
-            pass
+            view.general_help_message()
         elif command == "quit":
-            pass
+            sys.exit()
         else:
             # Unrecognised command
             view.invalid_move()
