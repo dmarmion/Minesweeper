@@ -45,9 +45,13 @@ class Grid:
         Get a console-friendly string representation of the grid with
         row and column indexes.
         """
+        # Escape codes for coloured text
+        RED_TEXT = "\033[91m"
+        RESET_TEXT = "\033[00m"
+
         COLUMN_WIDTH = 1
         COVERED_CELL = " "
-        FLAGGED_CELL = "F"
+        FLAGGED_CELL = RED_TEXT + "F" + RESET_TEXT
         MINED_CELL = "*"
         NO_NEIGHBOUR_MINES = "."
         COLUMN_DIVIDER = "|"

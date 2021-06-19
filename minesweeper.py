@@ -6,7 +6,7 @@ from gameengine import GameEngine
 def main():
     """
     Run a game of Minesweeper using the console for output.
-    Program ends when game ends.
+    Program ends when the game ends.
     """
     # Set up game
     view = ConsoleView()
