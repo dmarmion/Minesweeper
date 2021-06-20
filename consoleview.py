@@ -90,6 +90,7 @@ class ConsoleView:
     
     def mine_hit(self):
         """Called when a mine is hit."""
+        self.board_updated()
         print("A mine was hit!")
         print("Game over.")
         print()
@@ -97,6 +98,5 @@ class ConsoleView:
     def game_won(self):
         """Called when all non-mined cells have been uncovered."""
         self.board_updated()
-
         print("You win!")
         print()
