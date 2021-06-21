@@ -1,5 +1,6 @@
 import enum
 import random
+import sys
 
 class Cell:
     """
@@ -51,10 +52,14 @@ class Grid:
 
         COLUMN_WIDTH = 1
         COVERED_CELL = " "
-        FLAGGED_CELL = RED_TEXT + "F" + RESET_TEXT
+        FLAGGED_CELL = "F"
         MINED_CELL = "*"
         NO_NEIGHBOUR_MINES = "."
         COLUMN_DIVIDER = "|"
+
+        # Make flags red unless -w is given as an argument
+        if "-w" not in sys.argv:
+            FLAGGED_CELL = RED_TEXT + "F" + RESET_TEXT
 
         stringrepr = ""
 
