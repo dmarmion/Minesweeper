@@ -59,7 +59,7 @@ class Grid:
 
         # Make flags red unless -w is given as an argument
         if "-w" not in sys.argv:
-            FLAGGED_CELL = RED_TEXT + "F" + RESET_TEXT
+            FLAGGED_CELL = RED_TEXT + FLAGGED_CELL + RESET_TEXT
 
         stringrepr = ""
 
