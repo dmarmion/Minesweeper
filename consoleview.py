@@ -84,7 +84,7 @@ class ConsoleView:
         """
         self.board_updated()
         
-        # Prompt user for input
+        # Print prompt for user input
         print("Please enter your move:")
         print("> ", end='')
     

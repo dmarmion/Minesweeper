@@ -2,6 +2,7 @@ import sys
 
 from consoleview import ConsoleView
 from gameengine import GameEngine
+from guiview import GuiView
 
 def main():
     """
@@ -91,6 +92,9 @@ def execute_move(move, game, view):
 
 def run_gui_game():
     """Run a game of Minesweeper with a graphical user interface."""
+    # Set up game
+    view = GuiView()
+    game = GameEngine(view)
 
 if __name__ == "__main__":
     main()
