@@ -5,6 +5,16 @@ from gameengine import GameEngine
 
 def main():
     """
+    Determine whether to run the game through the command line or a
+    graphical interface.
+    """
+    if "cli" in sys.argv:
+        run_cli_game()
+    else:
+        run_gui_game()
+
+def run_cli_game():
+    """
     Run a game of Minesweeper using the console for output.
     Program ends when the game ends.
     """
@@ -78,6 +88,9 @@ def execute_move(move, game, view):
             view.invalid_move()
     else:
         view.invalid_move()
+
+def run_gui_game():
+    """Run a game of Minesweeper with a graphical user interface."""
 
 if __name__ == "__main__":
     main()
