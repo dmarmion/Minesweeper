@@ -94,7 +94,7 @@ class Grid:
                     else:
                         # Display the number of surrounding Cells which
                         # contain mines
-                        mined_neighbours = self._mined_neighbours(row, col)
+                        mined_neighbours = self.mined_neighbours(row, col)
 
                         if mined_neighbours == 0:
                             stringrepr += NO_NEIGHBOUR_MINES
@@ -142,10 +142,10 @@ class Grid:
 
         return neighbour_set
 
-    def _mined_neighbours(self, row, col):
+    def mined_neighbours(self, row, col):
         """
         Get the number of mined cells that are neighbours of the cell
-        at (row, col)
+        at (col, row)
         """
         mine_count = 0
 
@@ -157,15 +157,26 @@ class Grid:
     
     def has_cell_at(self, row, col):
         """
-        Return True if (row, col) is a valid position in the grid, i.e.
+        Return True if (col, row) is a valid position in the grid, i.e.
         0 <= row < GRID_ROWS and 0 <= col < GRID_COLUMNS.
         """
         return (row >= 0 and row < self.GRID_ROWS
                 and col >= 0 and col < self.GRID_COLUMNS)
     
+    def has_mine_at(self, row, col):
+        """
+        Return True if (col, row) is a valid position in the grid and
+        contains a mine.
+        """
+        if self.has_cell_at(row, col) and self._grid[row][col].mined:
+            return True
+        
+        # Return false otherwise
+        return False
+    
     def cell_state_at(self, row, col):
         """
-        Get the state of the cell at (row, col), or None otherwise.
+        Get the state of the cell at (col, row), or None otherwise.
         """
         if self.has_cell_at(row, col):
             return self._grid[row][col].state
@@ -174,7 +185,7 @@ class Grid:
     
     def set_cell_state(self, row, col, new_state):
         """
-        Set the cell at (row, col) to have state new_state.
+        Set the cell at (col, row) to have state new_state.
         
         Returns False if the cell does not exist.
         """
@@ -186,13 +197,13 @@ class Grid:
     
     def uncover_from(self, row, col):
         """
-        Begin uncovering cells from (row, col).
+        Begin uncovering cells from (col, row).
 
-        If (row, col) is not a mine, it's non-mine neighbours will be
+        If (col, row) is not a mine, it's non-mine neighbours will be
         uncovered. Every time a neighbour cell with no neighbouring
         mines is uncovered, it's neighbours will also be uncovered.
 
-        Returns True unless there is a mine at (row, col).
+        Returns True unless there is a mine at (col, row).
         """
         if self.has_cell_at(row, col):            
             if self._grid[row][col].mined:
@@ -246,7 +257,7 @@ class Grid:
                             and self.has_cell_at(row + r, col + c)):
                             # If the neighbour doesn't neighbour any
                             # mines, uncover from there
-                            if (self._mined_neighbours(row + r, col + c) == 0
+                            if (self.mined_neighbours(row + r, col + c) == 0
                                 and (self._grid[row + r][col + c]
                                      not in visited_cells)):
                                 self._recursively_uncover_from(row + r,
