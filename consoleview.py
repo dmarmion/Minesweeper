@@ -62,7 +62,7 @@ class ConsoleView:
         print("uncover <column> <row>, e.g. 'uncover 4 8'")
         print()
 
-    def board_updated(self):
+    def _board_updated(self):
         """Print the current state of the board"""
         if self._game is not None:
             print(self._game.grid)
@@ -82,7 +82,7 @@ class ConsoleView:
         Prints the current game state and prompts the user to enter
         their move.
         """
-        self.board_updated()
+        self._board_updated()
         
         # Print prompt for user input
         print("Please enter your move:")
@@ -90,13 +90,17 @@ class ConsoleView:
     
     def mine_hit(self):
         """Called when a mine is hit."""
-        self.board_updated()
+        self._board_updated()
         print("A mine was hit!")
         print("Game over.")
         print()
     
     def game_won(self):
         """Called when all non-mined cells have been uncovered."""
-        self.board_updated()
+        self._board_updated()
         print("You win!")
         print()
+    
+    def cells_uncovered(self):
+        """Called when cells have been uncovered in the grid."""
+        # No-op for console view

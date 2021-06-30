@@ -38,6 +38,8 @@ class GameEngine:
                     self.game_over = True
                     self.view.game_won()
                 
+                # Notify view
+                self.view.cells_uncovered()
                 return True
             else:
                 return False
