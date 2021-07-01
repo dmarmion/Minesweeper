@@ -3,7 +3,7 @@ class ConsoleView:
 
     def __init__(self):
         # The game this view is representing.
-        # Must be set before many operations can take place
+        # Must be set before some operations can take place
         self._game = None
     
     def general_help_message(self):
@@ -62,7 +62,7 @@ class ConsoleView:
         print("uncover <column> <row>, e.g. 'uncover 4 8'")
         print()
 
-    def _board_updated(self):
+    def _print_board(self):
         """Print the current state of the board"""
         if self._game is not None:
             print(self._game.grid)
@@ -82,7 +82,7 @@ class ConsoleView:
         Prints the current game state and prompts the user to enter
         their move.
         """
-        self._board_updated()
+        self._print_board()
         
         # Print prompt for user input
         print("Please enter your move:")
@@ -90,14 +90,14 @@ class ConsoleView:
     
     def mine_hit(self):
         """Called when a mine is hit."""
-        self._board_updated()
+        self._print_board()
         print("A mine was hit!")
         print("Game over.")
         print()
     
     def game_won(self):
         """Called when all non-mined cells have been uncovered."""
-        self._board_updated()
+        self._print_board()
         print("You win!")
         print()
     

@@ -33,27 +33,17 @@ class GuiView:
 
         self._root.mainloop()
     
-    def invalid_move(self):
-        """Called when the player makes an invalid move."""
-        print("TODO: Implement invalid_move")
-    
-    def turn_started(self):
-        """
-        Called when a turn begins, before the user makes their move.
-        """
-        print("TODO: Implement turn_started")
+    def cells_uncovered(self):
+        """Called when cells have been uncovered in the grid."""
+        self._update_grid()
     
     def mine_hit(self):
         """Called when a mine is hit."""
-        print("TODO: Implement mine_hit")
+        self._set_status("You hit a mine. Game over.")
     
     def game_won(self):
         """Called when all non-mined cells have been uncovered."""
-        print("TODO: Implement game_won")
-    
-    def cells_uncovered(self):
-        """Called when cells have been uncovered in the grid."""
-        self._board_updated()
+        self._set_status("You win!")
     
     def _create_widgets(self):
         """Create and add the widgets to the window."""
@@ -77,7 +67,7 @@ class GuiView:
         self._status_bar = Label(self._root, text="Welcome to Minesweeper!")
         self._status_bar.grid(row=1, column=0)
     
-    def _board_updated(self):
+    def _update_grid(self):
         """Update the state of the buttons in the grid."""
         for r in range(Grid.GRID_ROWS):
             for c in range(Grid.GRID_COLUMNS):
@@ -97,4 +87,8 @@ class GuiView:
                         mneighbours = self._game.grid.mined_neighbours(r, c)
                         if mneighbours > 0:
                             btn["text"] = mneighbours
-                    
+
+    def _set_status(self, message):
+        """Display the given message in the status bar."""
+        if self._status_bar is not None:
+            self._status_bar["text"] = message
