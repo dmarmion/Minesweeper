@@ -16,6 +16,7 @@ class GuiView:
         # Main window
         self._root = Tk()
         self._root.title("Minesweeper")
+        self._root.resizable(False, False)
 
     def game_started(self):
         """
@@ -40,10 +41,12 @@ class GuiView:
     def mine_hit(self):
         """Called when a mine is hit."""
         self._set_status("You hit a mine. Game over.")
+        self._disable_grid()        
     
     def game_won(self):
         """Called when all non-mined cells have been uncovered."""
         self._set_status("You win!")
+        self._disable_grid()        
     
     def _create_widgets(self):
         """Create and add the widgets to the window."""
@@ -87,6 +90,12 @@ class GuiView:
                         mneighbours = self._game.grid.mined_neighbours(r, c)
                         if mneighbours > 0:
                             btn["text"] = mneighbours
+    
+    def _disable_grid(self):
+        """Disable all buttons in the grid."""
+        for r in range(Grid.GRID_ROWS):
+            for c in range(Grid.GRID_COLUMNS):
+                self._buttons[r][c]["state"] = "disabled"
 
     def _set_status(self, message):
         """Display the given message in the status bar."""
