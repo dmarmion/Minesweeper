@@ -91,5 +91,10 @@ class GuiView:
                     else:
                         # (c, r) does not contain a mine
                         btn["bg"] = "#BDBDBD"
-                        btn["text"] = self._game.grid.mined_neighbours(r, c)
+
+                        # Button states how many neighbouring cells have
+                        # mines, or remains blank if that number is 0
+                        mneighbours = self._game.grid.mined_neighbours(r, c)
+                        if mneighbours > 0:
+                            btn["text"] = mneighbours
                     
