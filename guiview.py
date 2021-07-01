@@ -34,7 +34,7 @@ class GuiView:
 
         self._root.mainloop()
     
-    def cells_uncovered(self):
+    def cells_updated(self):
         """Called when cells have been uncovered in the grid."""
         self._update_grid()
     
@@ -57,8 +57,13 @@ class GuiView:
         for r in range(Grid.GRID_ROWS):
             row = []
             for c in range(Grid.GRID_COLUMNS):
-                b = Button(grid_frame, padx=8, text=BLANK_CELL,
+                b = Button(grid_frame, height=1, width=2, padx=4,
+                           text=BLANK_CELL,
                            command=partial(self._game.uncover_cell, r, c))
+
+                # When the button is right-clicked, flag the cell
+                b.bind("<Button-3>", partial(self._flag_cell, r, c))
+                
                 b.grid(row=r, column=c)
 
                 row.append(b)
@@ -70,31 +75,56 @@ class GuiView:
         self._status_bar = Label(self._root, text="Welcome to Minesweeper!")
         self._status_bar.grid(row=1, column=0)
     
+    def _flag_cell(self, row, col, event):
+        """
+        Instruct the game to flag a cell in the grid. This method should
+        be called instead of calling GameEngine.flag_cell() directly so
+        that only the row and column indexes are passed to the
+        GameEngine, and not the event.
+
+        This method only forwards the call to the GameEngine - the
+        updating of a flagged cell's appearance happens in
+        GuiView._update_grid()
+        """
+        if self._game is not None:
+            self._game.flag_cell(row, col)
+    
     def _update_grid(self):
         """Update the state of the buttons in the grid."""
-        for r in range(Grid.GRID_ROWS):
-            for c in range(Grid.GRID_COLUMNS):
+        for r in range(len(self._buttons)):
+            for c in range(len(self._buttons[r])):
                 btn = self._buttons[r][c]
+                grid = self._game.grid
 
-                if self._game.grid.cell_state_at(r, c) == CellState.UNCOVERED:
-                    if self._game.grid.has_mine_at(r, c):
+                if grid.cell_state_at(r, c) == CellState.UNCOVERED:
+                    if grid.has_mine_at(r, c):
                         # (c, r) contains a mine
-                        btn["bg"] = "#FF0000"
+                        btn["bg"] = "red"
+                        btn["fg"] = "black"
                         btn["text"] = "*"
                     else:
                         # (c, r) does not contain a mine
                         btn["bg"] = "#BDBDBD"
+                        btn["fg"] = "black"
 
-                        # Button states how many neighbouring cells have
-                        # mines, or remains blank if that number is 0
-                        mneighbours = self._game.grid.mined_neighbours(r, c)
+                        # Button text states how many neighbouring cells
+                        # have mines, or is blank if that number is 0
+                        mneighbours = grid.mined_neighbours(r, c)
                         if mneighbours > 0:
                             btn["text"] = mneighbours
+                        
+                elif grid.cell_state_at(r, c) == CellState.FLAGGED:
+                    btn["fg"] = "red"
+                    btn["text"] = "🚩"
+                else:
+                    # Cell is covered; resetting the text is necessary
+                    # so that a cell returns to blank if it is unflagged
+                    btn["text"] = BLANK_CELL
     
     def _disable_grid(self):
         """Disable all buttons in the grid."""
-        for r in range(Grid.GRID_ROWS):
-            for c in range(Grid.GRID_COLUMNS):
+        for r in range(len(self._buttons)):
+            for c in range(len(self._buttons[r])):
                 self._buttons[r][c]["state"] = "disabled"
 
     def _set_status(self, message):

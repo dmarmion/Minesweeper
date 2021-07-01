@@ -39,7 +39,7 @@ class GameEngine:
                     self.view.game_won()
                 
                 # Notify view
-                self.view.cells_uncovered()
+                self.view.cells_updated()
                 return True
             else:
                 return False
@@ -52,7 +52,8 @@ class GameEngine:
         Flag a cell in the grid as containing a mine, or unflag it if
         that cell is already flagged.
 
-        Returns True if the move was valid, i.e. the cell was covered.
+        Returns True if the move was valid, i.e. the cell was covered or
+        flagged.
         """
         if not self.game_over:
             # To be able to toggle the flag-state of the cell, it must
@@ -67,6 +68,10 @@ class GameEngine:
                 else:
                     # Cannot flag uncovered cells
                     return False
+
+                # Notify view
+                self.view.cells_updated()
+                return True
             else:
                 return False
         else:

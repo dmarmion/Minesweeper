@@ -101,6 +101,6 @@ class ConsoleView:
         print("You win!")
         print()
     
-    def cells_uncovered(self):
+    def cells_updated(self):
         """Called when cells have been uncovered in the grid."""
         # No-op for console view
