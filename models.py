@@ -24,8 +24,9 @@ class CellState(enum.Enum):
 class Grid:
     """A grid of Cells."""
 
-    GRID_ROWS = 10
-    GRID_COLUMNS = 10
+    GRID_ROWS = 16
+    GRID_COLUMNS = 16
+    NUM_MINES = 40
 
     def __init__(self):
         # Create a GRID_ROWS x GRID_COLUMNS grid of Cells in their
@@ -114,12 +115,10 @@ class Grid:
         This method does not clear any positions which have already been
         set to have mines.
         """
-        NUM_MINES = 10
-
         # Positions in the grid which will be set to have a mine, stored
         # as (row, col) tuples
         cells_to_mine = set()
-        while len(cells_to_mine) < NUM_MINES:
+        while len(cells_to_mine) < self.NUM_MINES:
             row = random.randrange(self.GRID_ROWS)
             col = random.randrange(self.GRID_COLUMNS)
             cells_to_mine.add((row, col))
