@@ -2,7 +2,7 @@
 
 To play, run **`python minesweeper.py`**, which will bring up the GUI version of the game. Left-click a cell to uncover it, or right-click a cell to flag it.
 
-![Screenshot](screenshot.png)
+<img src="screenshot.png" width="450px">
 
 The game can also be played through the command line, by running `python minesweeper.py cli`. When in CLI mode, enter `help` to see the commands.
 
